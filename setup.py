@@ -1,32 +1,28 @@
-#python3
-#encoding: shift-jis
+#!python3
+#encoding: ascii
 from setuptools import setup
 import sys
 import io
-version = '1.0.0'
-license = "MIT License"
 
 with io.open('README.md', encoding='ascii') as fp:
     long_description = fp.read()
 
 setup(
+    name='CoffeeScript',
+    version="1.0.1",
+    author='Omoto Kenji',
+    description='A bridge to the JS CoffeeScript compiler',
+    
     packages=['coffeescript'],
     package_dir={'coffeescript': 'coffeescript'},
     package_data={
-        'coffeescript': ['*.js'],
+        'coffeescript': ['coffee-script.js'],
     },
-    data_files = [
-        ('', 'README.md LICENSE'.split()),
-    ],
-    name='CoffeeScript',
-    version=version,
-    description='A bridge to the JS CoffeeScript compiler',
+    
     long_description=long_description,
-    author='Omoto Kenji',
+    url='https://github.com/doloopwhile/Python-CoffeeScript',
     author_email='doloopwhile@gmail.com',
-    url='https://github.com/doloopwhile/coffeescript',
-    install_requires=('pyexecjs',),
-    license=license,
+    license="MIT License",
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
@@ -38,6 +34,7 @@ setup(
         "Programming Language :: Python :: 3",
         'Programming Language :: Python :: 3.2',
         'Programming Language :: JavaScript',
-        'Programming Language :: CoffeeScript',
     ],
+    install_requires="PyExecJS".split(),
+    test_suite="test_coffeescript",
 )
