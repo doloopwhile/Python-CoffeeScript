@@ -1,9 +1,10 @@
 #python3
 #encoding: shift-jis
-from distutils.core import setup
+from setuptools import setup
 import sys
 import io
-import execjs
+version = '1.0.0'
+license = "MIT License"
 
 with io.open('README.md', encoding='ascii') as fp:
     long_description = fp.read()
@@ -18,14 +19,14 @@ setup(
         ('', 'README.md LICENSE'.split()),
     ],
     name='CoffeeScript',
-    version=execjs.__version__,
+    version=version,
     description='A bridge to the JS CoffeeScript compiler',
     long_description=long_description,
     author='Omoto Kenji',
     author_email='doloopwhile@gmail.com',
     url='https://github.com/doloopwhile/coffeescript',
-    
-    license=execjs.__license__,
+    install_requires=('pyexecjs',),
+    license=license,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
