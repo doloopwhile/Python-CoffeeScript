@@ -29,13 +29,13 @@ or
 
 
 #coffee-script.js
-The latest version of coffee-script.js (the script for browser <script type="text/coffeescript"> tags)
+The latest version of `coffee-script.js` (the script for browser `<script type="text/coffeescript">` tags)
 can be download from http://jashkenas.github.com/coffee-script/
 
 # License
 Copyright (c) 2011 Omoto Kenji.
 Released under the MIT license. See `LICENSE` for details.
 
-You can download current version of coffee-script.js from 
+You can download current version of `coffee-script.js` from 
 http://jashkenas.github.com/coffee-script/extras/coffee-script.js
 
