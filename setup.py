@@ -9,8 +9,8 @@ with io.open('README.md', encoding='ascii') as fp:
 
 setup(
     name='CoffeeScript',
-    version="1.0.1",
-    author='Omoto Kenji',
+    version="1.0.2",
+    author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
     
     packages=['coffeescript'],
