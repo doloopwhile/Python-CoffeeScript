@@ -2,7 +2,8 @@
 #encoding: shift-jis
 from __future__ import division, unicode_literals, print_function
 
-#Copyright (c) 2011 Omoto Kenji
+# Copyright (c) 2011 Omoto Kenji
+# Released under the MIT license. See `LICENSE` for details.
 
 '''
 Python CoffeeScript is a bridge to the JS CoffeeScript compiler. 
@@ -24,8 +25,6 @@ A short example:
     }).call(this);
 '''
 
-__version__ = str('1.0.0')
-__author__  = str("Omoto Kenji (doloopwhile@gmail.com)")
 __license__ = str("MIT License")
 
 __all__ = 'compile Compiler'.split()
@@ -47,7 +46,10 @@ class Compiler:
         if not hasattr(self, '_context'):
             self._context = self._runtime.compile(self._compiler_script)
         return self._context.call("CoffeeScript.compile", script, {'bare':bare})
-
+    
+    def compile_file(self, filename, encoding="utf-8", bare=False):
+        with io.open(filename, encoding=encoding) as fp:
+            return self.compile(fp.read(), bare=bare)
 
 _compiler = None
 
@@ -75,8 +77,5 @@ def _default_compiler():
 def compile(script, bare=False):
     return _default_compiler().compile(script, bare=bare)
 
-
-def version():
-    return _default_compiler().version()
-
-
+def compile_file(filename, encoding="utf-8", bare=False):
+    return _default_compiler().compile_file(filename, encoding=encoding, bare=bare)
