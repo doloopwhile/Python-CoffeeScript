@@ -27,6 +27,7 @@ Installation
   $ pip install CoffeeScript
 
 or
+
 ::
   
   $ easy_install CoffeeScript
@@ -39,18 +40,19 @@ can be download from http://jashkenas.github.com/coffee-script/
 
 License
 --------
-Copyright (c) 2012 Omoto Kenji.
+Copyright (c) 2012 OMOTO Kenji.
 Released under the MIT license. See `LICENSE` for details.
 
 You can download current version of `coffee-script.js` from 
 http://jashkenas.github.com/coffee-script/extras/coffee-script.js
 
-#Changes
+Changes
+-------
 1.0.3
- Updated coffee-script.js to v1.3.3.
+  Updated coffee-script.js to v1.3.3.
 1.0.2 
- Updated coffee-script.js to v1.3.1.
+  Updated coffee-script.js to v1.3.1.
 1.0.1
- Fixed some small problem in setup.py.
+  Fixed some small problem in setup.py.
 1.0.0
- First release.
+  First release.
