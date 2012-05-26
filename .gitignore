@@ -1,0 +1,6 @@
+#ignore python cache
+*.pyc
+__pycache__
+*.egg-info/
+dist/
+build/
