@@ -4,12 +4,12 @@ from setuptools import setup
 import sys
 import io
 
-with io.open('README.md', encoding='ascii') as fp:
+with io.open('README', encoding='ascii') as fp:
     long_description = fp.read()
 
 setup(
     name='CoffeeScript',
-    version="1.0.2",
+    version="1.0.3",
     author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
     
