@@ -4,7 +4,7 @@ from setuptools import setup
 import sys
 import io
 
-with io.open('README.rst', encoding='ascii') as fp:
+with io.open('README', encoding='ascii') as fp:
     long_description = fp.read()
 
 setup(
