@@ -8,7 +8,7 @@ with io.open('README.rst', encoding='ascii') as fp:
     long_description = fp.read()
 
 setup(
-    name='Python-CoffeeScript',
+    name='CoffeeScript',
     version="1.0.3",
     author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
