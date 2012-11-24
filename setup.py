@@ -3,13 +3,13 @@
 from setuptools import setup
 import sys
 import io
-import coffeescript
+
 with io.open('README.rst', encoding='ascii') as fp:
     long_description = fp.read()
 
 setup(
     name='CoffeeScript',
-    version=coffeescript.__version__,
+    version='1.0.5',
     author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
 
@@ -30,8 +30,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.1',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: JavaScript',
     ],

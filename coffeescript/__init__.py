@@ -22,10 +22,20 @@ A short example:
     }).call(this);
 '''
 
+# A value of __spam__ have to be wrapped with str().
+# It is because that __spam__ must be a instance of str() in 2.x and
+# "xxxx" is a instance of unicode() due to unicode_literals.
+
 __license__ = str("MIT License")
 
-VERSION = (1, 0, 5)
-__version__ = str('.').join(map(str, VERSION))
+# The following __version__ is not DRY.
+# Same information can be got from setup.py.
+# However, __version__ should provited by __init__.py for user-friendliness.
+# On the other hand, it is impossible that `from coffeescript import __version__`
+# in spite of a dependency on execjs.
+# i.e. the import in setup.py fails if execjs has not been installed yet.
+__version__ = str("1.0.5")
+
 
 __all__ = str('''
     compile
