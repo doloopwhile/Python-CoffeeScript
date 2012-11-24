@@ -44,6 +44,11 @@ import execjs
 EngineError = execjs.RuntimeError
 CompilationError = execjs.ProgramError
 
+try:
+    _BaseString = basestring
+except NameError:
+    _BaseString = (str, bytes)
+
 
 class Compiler:
     def __init__(self, compiler_script, runtime):
@@ -57,8 +62,15 @@ class Compiler:
             "CoffeeScript.compile", script, {'bare': bare})
 
     def compile_file(self, filename, encoding="utf-8", bare=False):
-        with io.open(filename, encoding=encoding) as fp:
-            return self.compile(fp.read(), bare=bare)
+        if isinstance(filename, _BaseString):
+            filename = [filename]
+
+        scripts = []
+        for f in filename:
+            with io.open(f, encoding=encoding) as fp:
+                scripts.append(fp.read())
+
+        return self.compile('\n\n'.join(scripts), bare=bare)
 
 
 def compile(script, bare=False):
@@ -70,7 +82,7 @@ def compile_file(filename, encoding="utf-8", bare=False):
         filename, encoding=encoding, bare=bare)
 
 
-def get_compiler_script():
+def geet_compiler_script():
     from os.path import dirname, join
     filename = join(dirname(__file__), 'coffee-script.js')
     with io.open(filename, encoding='utf8') as fp:
