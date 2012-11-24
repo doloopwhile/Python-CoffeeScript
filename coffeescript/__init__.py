@@ -33,6 +33,8 @@ __all__ = str('''
     Compiler
     EngineError
     CompilationError
+    get_runtime
+    get_compiler_script
 ''').split()
 
 import os
@@ -59,30 +61,6 @@ class Compiler:
             return self.compile(fp.read(), bare=bare)
 
 
-_compiler = None
-
-
-def _default_compiler_script():
-    from os.path import dirname, join
-    filename = join(dirname(__file__), 'coffee-script.js')
-    with io.open(filename, encoding='utf8') as fp:
-        return fp.read()
-
-
-def _default_runtime():
-    return execjs.get()
-
-
-def _default_compiler():
-    global _compiler
-    if _compiler is None:
-        _compiler = Compiler(
-            _default_compiler_script(),
-            _default_runtime()
-        )
-    return _compiler
-
-
 def compile(script, bare=False):
     return _default_compiler().compile(script, bare=bare)
 
@@ -90,3 +68,27 @@ def compile(script, bare=False):
 def compile_file(filename, encoding="utf-8", bare=False):
     return _default_compiler().compile_file(
         filename, encoding=encoding, bare=bare)
+
+
+def get_compiler_script():
+    from os.path import dirname, join
+    filename = join(dirname(__file__), 'coffee-script.js')
+    with io.open(filename, encoding='utf8') as fp:
+        return fp.read()
+
+
+def get_runtime():
+    return execjs.get()
+
+
+_compiler = None
+
+
+def _default_compiler():
+    global _compiler
+    if _compiler is None:
+        _compiler = Compiler(
+            get_compiler_script(),
+            get_runtime()
+        )
+    return _compiler
