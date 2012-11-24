@@ -1,33 +1,41 @@
-#!python3
-#encoding: shift-jis
+#!/usr/bin/env python3
+# -*- coding: ascii -*-
 from __future__ import division, unicode_literals, print_function
 
 # Copyright (c) 2011 Omoto Kenji
 # Released under the MIT license. See `LICENSE` for details.
 
 '''
-Python CoffeeScript is a bridge to the JS CoffeeScript compiler. 
+Python CoffeeScript is a bridge to the JS CoffeeScript compiler.
 
 A short example:
 
     >>> import coffeescript
-    >>> coffeescript.compile('add = (a, b) -> a + b')
-    '(function() {\n  var add;\n\n  add = function(a, b) {\n    return a + b;\n  };\
-    n\n}).call(this);\n'
     >>> print(coffeescript.compile('add = (a, b) -> a + b'))
     (function() {
       var add;
-    
+
       add = function(a, b) {
         return a + b;
       };
-    
+
     }).call(this);
 '''
 
 __license__ = str("MIT License")
 
-__all__ = 'compile Compiler'.split()
+VERSION = (1, 0, 5)
+__version__ = str('.').join(map(str, VERSION))
+
+__all__ = str('''
+    compile
+    compile_file
+    Compiler
+    EngineError
+    CompilationError
+    get_runtime
+    get_compiler_script
+''').split()
 
 import os
 import io
@@ -36,46 +44,88 @@ import execjs
 EngineError = execjs.RuntimeError
 CompilationError = execjs.ProgramError
 
+try:
+    _BaseString = basestring
+except NameError:
+    _BaseString = (str, bytes)
+
 
 class Compiler:
+    '''Wrapper of execution of CoffeeScript compiler script'''
     def __init__(self, compiler_script, runtime):
+        '''compiler_script is a CoffeeScript compiler script in JavaScript.
+        runtime is a instance of execjs.Runtime.
+        '''
         self._compiler_script = compiler_script
         self._runtime = runtime
-        
+
     def compile(self, script, bare=False):
+        '''compile a CoffeeScript code to a JavaScript code.
+
+        if bare is True, then compile the JavaScript without the top-level
+        function safety wrapper (like the coffee command).
+        '''
         if not hasattr(self, '_context'):
             self._context = self._runtime.compile(self._compiler_script)
-        return self._context.call("CoffeeScript.compile", script, {'bare':bare})
-    
+        return self._context.call(
+            "CoffeeScript.compile", script, {'bare': bare})
+
     def compile_file(self, filename, encoding="utf-8", bare=False):
-        with io.open(filename, encoding=encoding) as fp:
-            return self.compile(fp.read(), bare=bare)
+        '''compile a CoffeeScript script file to a JavaScript code.
 
-_compiler = None
+        filename can be a list or tuple of filenames,
+        then contents of files are concatenated with line feeds.
 
-def _default_compiler_script():
+        if bare is True, then compile the JavaScript without the top-level
+        function safety wrapper (like the coffee command).
+        '''
+        if isinstance(filename, _BaseString):
+            filename = [filename]
+
+        scripts = []
+        for f in filename:
+            with io.open(f, encoding=encoding) as fp:
+                scripts.append(fp.read())
+
+        return self.compile('\n\n'.join(scripts), bare=bare)
+
+
+def compile(script, bare=False):
+    return _default_compiler().compile(script, bare=bare)
+compile.__doc__ = Compiler.compile.__doc__
+
+
+def compile_file(filename, encoding="utf-8", bare=False):
+    return _default_compiler().compile_file(
+        filename, encoding=encoding, bare=bare)
+compile_file.__doc__ = Compiler.compile_file.__doc__
+
+
+def get_compiler_script():
+    '''returns a CoffeeScript compiler script in JavaScript.
+    which is used in coffeescript.compile() and coffeescript.compile_file()
+    '''
     from os.path import dirname, join
     filename = join(dirname(__file__), 'coffee-script.js')
     with io.open(filename, encoding='utf8') as fp:
         return fp.read()
 
 
-def _default_runtime():
+def get_runtime():
+    '''returns an appropriate instance of execjs.Runtime
+    which is used in coffeescript.compile() and coffeescript.compile_file()
+    '''
     return execjs.get()
+
+
+_compiler = None
 
 
 def _default_compiler():
     global _compiler
     if _compiler is None:
         _compiler = Compiler(
-            _default_compiler_script(),
-            _default_runtime()
+            get_compiler_script(),
+            get_runtime()
         )
     return _compiler
-
-
-def compile(script, bare=False):
-    return _default_compiler().compile(script, bare=bare)
-
-def compile_file(filename, encoding="utf-8", bare=False):
-    return _default_compiler().compile_file(filename, encoding=encoding, bare=bare)
