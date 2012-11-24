@@ -7,9 +7,6 @@ A short example
 ::
 
   >>> import coffeescript
-  >>> coffeescript.compile('add = (a, b) -> a + b')
-  '(function() {\n  var add;\n\n  add = function(a, b) {\n    return a + b;\n  };\
-  n\n}).call(this);\n'
   >>> print(coffeescript.compile('add = (a, b) -> a + b'))
   (function() {
     var add;
