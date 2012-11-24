@@ -3,13 +3,13 @@
 from setuptools import setup
 import sys
 import io
-import coffeescript
+
 with io.open('README.rst', encoding='ascii') as fp:
     long_description = fp.read()
 
 setup(
     name='CoffeeScript',
-    version=coffeescript.__version__,
+    version='1.0.4',
     author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
 
