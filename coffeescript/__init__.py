@@ -24,7 +24,7 @@ A short example:
 
 __license__ = str("MIT License")
 
-VERSION = (1, 0, 4)
+VERSION = (1, 0, 5)
 __version__ = str('.').join(map(str, VERSION))
 
 __all__ = str('''
