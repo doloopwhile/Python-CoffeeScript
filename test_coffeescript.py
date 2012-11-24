@@ -1,6 +1,6 @@
-#!python3
-#encoding:utf-8
-from __future__ import unicode_literals
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+from __future__ import unicode_literals, print_function
 import doctest
 import unittest
 

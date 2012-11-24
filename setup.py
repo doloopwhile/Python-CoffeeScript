@@ -1,5 +1,5 @@
-#!python3
-#encoding: ascii
+#!/usr/bin/env python3
+# -*- coding: ascii -*-
 from setuptools import setup
 import sys
 import io

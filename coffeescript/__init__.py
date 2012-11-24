@@ -1,5 +1,5 @@
-#!python3
-#encoding: shift-jis
+#!/usr/bin/env python3
+# -*- coding: ascii -*-
 from __future__ import division, unicode_literals, print_function
 
 # Copyright (c) 2011 Omoto Kenji
