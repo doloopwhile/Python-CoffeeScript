@@ -12,13 +12,13 @@ setup(
     version="1.0.4",
     author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
-    
+
     packages=['coffeescript'],
     package_dir={'coffeescript': 'coffeescript'},
     package_data={
         'coffeescript': ['coffee-script.js'],
     },
-    
+
     long_description=long_description,
     url='https://github.com/doloopwhile/Python-CoffeeScript',
     author_email='doloopwhile@gmail.com',

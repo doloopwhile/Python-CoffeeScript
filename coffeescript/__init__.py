@@ -6,22 +6,19 @@ from __future__ import division, unicode_literals, print_function
 # Released under the MIT license. See `LICENSE` for details.
 
 '''
-Python CoffeeScript is a bridge to the JS CoffeeScript compiler. 
+Python CoffeeScript is a bridge to the JS CoffeeScript compiler.
 
 A short example:
 
     >>> import coffeescript
-    >>> coffeescript.compile('add = (a, b) -> a + b')
-    '(function() {\n  var add;\n\n  add = function(a, b) {\n    return a + b;\n  };\
-    n\n}).call(this);\n'
     >>> print(coffeescript.compile('add = (a, b) -> a + b'))
     (function() {
       var add;
-    
+
       add = function(a, b) {
         return a + b;
       };
-    
+
     }).call(this);
 '''
 
@@ -41,17 +38,20 @@ class Compiler:
     def __init__(self, compiler_script, runtime):
         self._compiler_script = compiler_script
         self._runtime = runtime
-        
+
     def compile(self, script, bare=False):
         if not hasattr(self, '_context'):
             self._context = self._runtime.compile(self._compiler_script)
-        return self._context.call("CoffeeScript.compile", script, {'bare':bare})
-    
+        return self._context.call(
+            "CoffeeScript.compile", script, {'bare': bare})
+
     def compile_file(self, filename, encoding="utf-8", bare=False):
         with io.open(filename, encoding=encoding) as fp:
             return self.compile(fp.read(), bare=bare)
 
+
 _compiler = None
+
 
 def _default_compiler_script():
     from os.path import dirname, join
@@ -77,5 +77,7 @@ def _default_compiler():
 def compile(script, bare=False):
     return _default_compiler().compile(script, bare=bare)
 
+
 def compile_file(filename, encoding="utf-8", bare=False):
-    return _default_compiler().compile_file(filename, encoding=encoding, bare=bare)
+    return _default_compiler().compile_file(
+        filename, encoding=encoding, bare=bare)
