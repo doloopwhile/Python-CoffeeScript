@@ -51,17 +51,34 @@ except NameError:
 
 
 class Compiler:
+    '''Wrapper of execution of CoffeeScript compiler script'''
     def __init__(self, compiler_script, runtime):
+        '''compiler_script is a CoffeeScript compiler script in JavaScript.
+        runtime is a instance of execjs.Runtime.
+        '''
         self._compiler_script = compiler_script
         self._runtime = runtime
 
     def compile(self, script, bare=False):
+        '''compile a CoffeeScript code to a JavaScript code.
+
+        if bare is True, then compile the JavaScript without the top-level
+        function safety wrapper (like the coffee command).
+        '''
         if not hasattr(self, '_context'):
             self._context = self._runtime.compile(self._compiler_script)
         return self._context.call(
             "CoffeeScript.compile", script, {'bare': bare})
 
     def compile_file(self, filename, encoding="utf-8", bare=False):
+        '''compile a CoffeeScript script file to a JavaScript code.
+
+        filename can be a list or tuple of filenames,
+        then contents of files are concatenated with line feeds.
+
+        if bare is True, then compile the JavaScript without the top-level
+        function safety wrapper (like the coffee command).
+        '''
         if isinstance(filename, _BaseString):
             filename = [filename]
 
@@ -75,14 +92,19 @@ class Compiler:
 
 def compile(script, bare=False):
     return _default_compiler().compile(script, bare=bare)
+compile.__doc__ = Compiler.compile.__doc__
 
 
 def compile_file(filename, encoding="utf-8", bare=False):
     return _default_compiler().compile_file(
         filename, encoding=encoding, bare=bare)
+compile_file.__doc__ = Compiler.compile_file.__doc__
 
 
-def geet_compiler_script():
+def get_compiler_script():
+    '''returns a CoffeeScript compiler script in JavaScript.
+    which is used in coffeescript.compile() and coffeescript.compile_file()
+    '''
     from os.path import dirname, join
     filename = join(dirname(__file__), 'coffee-script.js')
     with io.open(filename, encoding='utf8') as fp:
@@ -90,6 +112,9 @@ def geet_compiler_script():
 
 
 def get_runtime():
+    '''returns an appropriate instance of execjs.Runtime
+    which is used in coffeescript.compile() and coffeescript.compile_file()
+    '''
     return execjs.get()
 
 
