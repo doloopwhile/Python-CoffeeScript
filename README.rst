@@ -45,6 +45,8 @@ http://jashkenas.github.com/coffee-script/extras/coffee-script.js
 
 Changes
 -------
+1.0.6
+  Updated coffee-script.js to v1.5.0.
 1.0.5
   Made compile_file to accept plural files and Added some utility functions.
 1.0.4
