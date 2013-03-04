@@ -13,17 +13,12 @@ import execjs
 import coffeescript
 
 
-coffee_codes = [
-"""
+cfcode = """
 # このコメントはasciiで表現できない文字列です(This is a non-ascii comment)
+helloworld = "こんにちは世界"
 add = (x, y) ->
     x + y
-""",
 """
-helloworld = "こんにちは世界"
-"""
-]
-
 hello = "こんにちは"
 world = "世界"
 helloworld = "こんにちは世界"
@@ -74,26 +69,21 @@ class CoffeeScriptTest(unittest.TestCase):
         for compiler, encoding, runtime in combinations_of_configs:
             compile_file = compiler.compile_file
 
-            filenames = []
-            for i, _ in enumerate(coffee_codes):
-                (fd, fn) = tempfile.mkstemp()
-                filenames.append(fn)
-                os.close(fd)
-
+            (fd, filename) = tempfile.mkstemp()
+            os.close(fd)
             try:
-                for coffee_code, filename in zip(coffee_codes, filenames):
-                    with io.open(filename, "w", encoding=encoding) as fp:
-                        fp.write(coffee_code)
+                with io.open(filename, "w", encoding=encoding) as fp:
+                    fp.write(cfcode)
 
                 jscode = coffeescript.compile_file(
-                    filenames, encoding=encoding, bare=True)
+                    filename, encoding=encoding, bare=True)
                 ctx = runtime.compile(jscode)
                 self.assertEqual(ctx.call("add", 1, 2), 3)
                 self.assertEqual(ctx.call("add", hello, world), helloworld)
                 self.assertEqual(ctx.eval("helloworld"), helloworld)
 
                 jscode = coffeescript.compile_file(
-                    filenames, encoding=encoding, bare=False)
+                    filename, encoding=encoding, bare=False)
                 ctx = runtime.compile(jscode)
                 with self.assertRaises(execjs.ProgramError):
                     self.assertEqual(ctx.call("add", 1, 2), 3)
