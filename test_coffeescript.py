@@ -24,6 +24,16 @@ world = "世界"
 helloworld = "こんにちは世界"
 
 
+splitted_coffee_code = ["""
+# このコメントはasciiで表現できない文字列です(This is a non-ascii comment)
+helloworld = "こんにちは世界"
+""",
+"""
+add = (x, y) ->
+    x + y
+"""
+]
+
 class CoffeeScriptTest(unittest.TestCase):
     def setUp(self):
         self.runtimes = list(execjs.available_runtimes().values())
@@ -73,35 +83,68 @@ class CoffeeScriptTest(unittest.TestCase):
         return product(
             self.compilers,
             self.encodings,
-            self.runtimes
+            self.runtimes,
         )
+
+    def assert_compile_file_success(self, compiler, runtime, filename, encoding, bare):
+        jscode = compiler.compile_file(filename, encoding=encoding, bare=bare)
+        ctx = runtime.compile(jscode)
+        self.assertExprsSuccess(ctx)
+
+    def assert_compile_file_fail(self, compiler, runtime, filename, encoding, bare):
+        jscode = compiler.compile_file(filename, encoding=encoding, bare=bare)
+        ctx = runtime.compile(jscode)
+        self.assertExprsFail(ctx)
+
+    def assert_compile_file_decode_error(self, compiler, runtime, filename, encoding, bare):
+        with self.assertRaises(UnicodeDecodeError):
+            compiler.compile_file(filename, encoding=encoding, bare=bare)
+
+    def write_temp_files(self, strings, encoding):
+        paths = []
+        for s in strings:
+            (fd, path) = tempfile.mkstemp()
+            os.close(fd)
+            with io.open(path, "w", encoding=encoding) as fp:
+                fp.write(s)
+            paths.append(path)
+        return paths
+
+    def remove_files(self, paths):
+        for p in paths:
+            os.remove(p)
 
     def test_compile_files(self):
         for compiler, encoding, runtime in self.combinations_for_compile_file():
-            compile_file = compiler.compile_file
-
-            (fd, filename) = tempfile.mkstemp()
-            os.close(fd)
+            paths = self.write_temp_files([coffee_code], encoding)
             try:
-                with io.open(filename, "w", encoding=encoding) as fp:
-                    fp.write(coffee_code)
+                filename = paths[0]
 
-                jscode = compile_file(filename, encoding=encoding, bare=True)
-                ctx = runtime.compile(jscode)
-                self.assertExprsSuccess(ctx)
-
-                jscode = compile_file(filename, encoding=encoding, bare=False)
-                ctx = runtime.compile(jscode)
-                self.assertExprsFail(ctx)
-
+                self.assert_compile_file_success(compiler, runtime, filename, encoding, True)
+                self.assert_compile_file_fail(compiler, runtime, filename, encoding, False)
                 for wrong_encoding in set(self.encodings) - set([encoding]):
-                    with self.assertRaises(UnicodeDecodeError):
-                        compile_file(filename, encoding=wrong_encoding, bare=True)
-                    with self.assertRaises(UnicodeDecodeError):
-                        compile_file(filename, encoding=wrong_encoding, bare=False)
+                    self.assert_compile_file_decode_error(
+                        compiler, runtime, filename, wrong_encoding, True)
+                    self.assert_compile_file_decode_error(
+                        compiler, runtime, filename, wrong_encoding, False)
             finally:
-                os.remove(filename)
+                self.remove_files(paths)
 
+    def test_compile_splitted_files(self):
+        for compiler, encoding, runtime in self.combinations_for_compile_file():
+            paths = self.write_temp_files(splitted_coffee_code, encoding)
+            try:
+                filename = paths
+
+                self.assert_compile_file_success(compiler, runtime, filename, encoding, True)
+                self.assert_compile_file_fail(compiler, runtime, filename, encoding, False)
+                for wrong_encoding in set(self.encodings) - set([encoding]):
+                    self.assert_compile_file_decode_error(
+                        compiler, runtime, filename, wrong_encoding, True)
+                    self.assert_compile_file_decode_error(
+                        compiler, runtime, filename, wrong_encoding, False)
+            finally:
+                self.remove_files(paths)
 
 def load_tests(loader, tests, ignore):
     tests.addTests(doctest.DocTestSuite(coffeescript))
