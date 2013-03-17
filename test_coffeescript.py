@@ -13,7 +13,7 @@ import execjs
 import coffeescript
 
 
-cfcode = """
+coffee_code = """
 # このコメントはasciiで表現できない文字列です(This is a non-ascii comment)
 helloworld = "こんにちは世界"
 add = (x, y) ->
@@ -28,6 +28,7 @@ class CoffeeScriptTest(unittest.TestCase):
     def setUp(self):
         self.runtimes = list(execjs.available_runtimes().values())
 
+        self.encodings = "shift-jis utf-8 euc-jp".split()
         self.compilers = []
         self.compilers.append(coffeescript)  # default compiler
 
@@ -40,65 +41,64 @@ class CoffeeScriptTest(unittest.TestCase):
             self.compilers.append(
                 coffeescript.Compiler(compiler_script, runtime))
 
+
+    def assertExprsSuccess(self, ctx):
+        self.assertEqual(ctx.call("add", 1, 2), 3)
+        self.assertEqual(ctx.call("add", hello, world), helloworld)
+        self.assertEqual(ctx.eval("helloworld"), helloworld)
+
+    def assertExprsFail(self, ctx):
+        with self.assertRaises(execjs.ProgramError):
+            ctx.call("add", 1, 2)
+        with self.assertRaises(execjs.ProgramError):
+            ctx.call("add", hello, world)
+        with self.assertRaises(execjs.ProgramError):
+            ctx.eval("helloworld")
+
     def test_compile(self):
         for compiler, runtime in product(self.compilers, self.runtimes):
             compile = compiler.compile
 
-            jscode = compile(cfcode, bare=True)
+            # test bare=True
+            jscode = compile(coffee_code, bare=True)
             ctx = runtime.compile(jscode)
-            self.assertEqual(ctx.call("add", 1, 2), 3)
-            self.assertEqual(ctx.call("add", hello, world), helloworld)
-            self.assertEqual(ctx.eval("helloworld"), helloworld)
+            self.assertExprsSuccess(ctx)
 
-            jscode = compile(cfcode, bare=False)
+            # test bare=False
+            jscode = compile(coffee_code, bare=False)
             ctx = runtime.compile(jscode)
-            with self.assertRaises(execjs.ProgramError):
-                self.assertEqual(ctx.call("add", 1, 2), 3)
-            with self.assertRaises(execjs.ProgramError):
-                self.assertEqual(ctx.call("add", hello, world), helloworld)
-            with self.assertRaises(execjs.ProgramError):
-                self.assertEqual(ctx.eval("helloworld"), helloworld)
+            self.assertExprsFail(ctx)
 
-    def test_compile_files(self):
-        encodings = "shift-jis utf-8 euc-jp".split()
-        combinations_of_configs = product(
+    def combinations_for_compile_file(self):
+        return product(
             self.compilers,
-            encodings,
+            self.encodings,
             self.runtimes
         )
-        for compiler, encoding, runtime in combinations_of_configs:
+
+    def test_compile_files(self):
+        for compiler, encoding, runtime in self.combinations_for_compile_file():
             compile_file = compiler.compile_file
 
             (fd, filename) = tempfile.mkstemp()
             os.close(fd)
             try:
                 with io.open(filename, "w", encoding=encoding) as fp:
-                    fp.write(cfcode)
+                    fp.write(coffee_code)
 
-                jscode = coffeescript.compile_file(
-                    filename, encoding=encoding, bare=True)
+                jscode = compile_file(filename, encoding=encoding, bare=True)
                 ctx = runtime.compile(jscode)
-                self.assertEqual(ctx.call("add", 1, 2), 3)
-                self.assertEqual(ctx.call("add", hello, world), helloworld)
-                self.assertEqual(ctx.eval("helloworld"), helloworld)
+                self.assertExprsSuccess(ctx)
 
-                jscode = coffeescript.compile_file(
-                    filename, encoding=encoding, bare=False)
+                jscode = compile_file(filename, encoding=encoding, bare=False)
                 ctx = runtime.compile(jscode)
-                with self.assertRaises(execjs.ProgramError):
-                    self.assertEqual(ctx.call("add", 1, 2), 3)
-                with self.assertRaises(execjs.ProgramError):
-                    self.assertEqual(ctx.call("add", hello, world), helloworld)
-                with self.assertRaises(execjs.ProgramError):
-                    self.assertEqual(ctx.eval("helloworld"), helloworld)
+                self.assertExprsFail(ctx)
 
-                for wrong_encoding in set(encodings) - set([encoding]):
+                for wrong_encoding in set(self.encodings) - set([encoding]):
                     with self.assertRaises(UnicodeDecodeError):
-                        coffeescript.compile_file(
-                            filename, encoding=wrong_encoding, bare=True)
+                        compile_file(filename, encoding=wrong_encoding, bare=True)
                     with self.assertRaises(UnicodeDecodeError):
-                        coffeescript.compile_file(
-                            filename, encoding=wrong_encoding, bare=False)
+                        compile_file(filename, encoding=wrong_encoding, bare=False)
             finally:
                 os.remove(filename)
 
