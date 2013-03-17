@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals, print_function
-import doctest
-import unittest
-
+import sys
 import os
 import io
 import tempfile
 from itertools import product
+
+if sys.version_info < (2, 7):
+    import unittest2 as unittest
+else:
+    import unittest
+
+import doctest
+
 
 import execjs
 import coffeescript
