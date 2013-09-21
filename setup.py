@@ -9,7 +9,7 @@ with io.open('README.rst', encoding='ascii') as fp:
 
 setup(
     name='CoffeeScript',
-    version='1.0.7',
+    version='1.0.8',
     author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
 
@@ -21,6 +21,7 @@ setup(
 
     long_description=long_description,
     url='https://github.com/doloopwhile/Python-CoffeeScript',
+    download_url='https://pypi.python.org/pypi/CoffeeScript',
     author_email='doloopwhile@gmail.com',
     license='MIT License',
     classifiers=[
