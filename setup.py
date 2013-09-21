@@ -21,6 +21,7 @@ setup(
 
     long_description=long_description,
     url='https://github.com/doloopwhile/Python-CoffeeScript',
+    download_url='https://pypi.python.org/pypi/CoffeeScript',
     author_email='doloopwhile@gmail.com',
     license='MIT License',
     classifiers=[
