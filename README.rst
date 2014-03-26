@@ -37,7 +37,6 @@ can be download from http://jashkenas.github.com/coffee-script/
 
 License
 --------
-Copyright (c) 2012 OMOTO Kenji.
 Released under the MIT license. See `LICENSE` for details.
 
 You can download current version of `coffee-script.js` from
@@ -47,7 +46,7 @@ Changes
 -------
 1.0.8
   Updated coffee-script.js to v1.6.3.
-  Added download_link to setyp.py.
+  Added download_link to setup.py.
 1.0.7
   Updated coffee-script.js to v1.6.1.
 1.0.6
