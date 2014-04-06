@@ -44,6 +44,8 @@ http://jashkenas.github.com/coffee-script/extras/coffee-script.js
 
 Changes
 -------
+1.0.9
+  Updated coffee-script.js to v1.7.1.
 1.0.8
   Updated coffee-script.js to v1.6.3.
   Added download_link to setup.py.
