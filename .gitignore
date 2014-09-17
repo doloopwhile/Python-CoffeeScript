@@ -2,6 +2,7 @@
 *.pyc
 __pycache__
 *.egg-info/
+EGG-INFO/
 dist/
 build/
 src/
