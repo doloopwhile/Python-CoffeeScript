@@ -45,6 +45,12 @@ Changes
 -------
 
 <dl>
+<dt>1.0.11
+<dd>
+ - Updated coffee-script.js to v1.9.0.
+ - Dropped support for Python v2.6 and v3.1.
+ - Supported Python v3.3 and v3.4.
+
 <dt>1.0.10
 <dd>
  - Updated coffee-script.js to v1.8.0.
