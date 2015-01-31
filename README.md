@@ -44,54 +44,52 @@ You can download current version of coffee-script.js from
 Changes
 -------
 
-<dl>
-<dt>1.0.11
-<dd>
- - Updated coffee-script.js to v1.9.0.
- - Dropped support for Python v2.6 and v3.1.
- - Supported Python v3.3 and v3.4.
+### 1.0.11
 
-<dt>1.0.10
-<dd>
- - Updated coffee-script.js to v1.8.0.
+ * Updated coffee-script.js to v1.9.0.
+ * Dropped support for Python v2.6 and v3.1.
+ * Supported Python v3.3 and v3.4.
 
-<dt>1.0.9
-<dd>
- - Updated coffee-script.js to v1.7.1.
+### 1.0.10
 
-<dt>1.0.8
-<dd>
- - Updated coffee-script.js to v1.6.3. Added download\_link to setup.py.
+ * Updated coffee-script.js to v1.8.0.
 
-<dt>1.0.7
-<dd>
- - Updated coffee-script.js to v1.6.1.
+### 1.0.9
 
-<dt>1.0.6
-<dd>
- - Updated coffee-script.js to v1.5.0.
+ * Updated coffee-script.js to v1.7.1.
 
-<dt>1.0.5
-<dd>
- - Made compile\_file to accept plural files and Added some utility functions.
+### 1.0.8
 
-<dt>1.0.4
-<dd>
- - Updated coffee-script.js to v1.4.0.
+ * Updated coffee-script.js to v1.6.3. Added download\_link to setup.py.
 
-<dt>1.0.3
-<dd>
- - Updated coffee-script.js to v1.3.3.
+### 1.0.7
 
-<dt>1.0.2
-<dd>
- - Updated coffee-script.js to v1.3.1.
+ * Updated coffee-script.js to v1.6.1.
 
-<dt>1.0.1
-<dd>
- - Fixed some small problem in setup.py.
+### 1.0.6
 
-<dt>1.0.0
-<dd>
- - First release.
-</dl>
+ * Updated coffee-script.js to v1.5.0.
+
+### 1.0.5
+
+ * Made compile\_file to accept plural files and Added some utility functions.
+
+### 1.0.4
+
+ * Updated coffee-script.js to v1.4.0.
+
+### 1.0.3
+
+ * Updated coffee-script.js to v1.3.3.
+
+### 1.0.2
+
+ * Updated coffee-script.js to v1.3.1.
+
+### 1.0.1
+
+ * Fixed some small problem in setup.py.
+
+### 1.0.0
+
+ * First release.
