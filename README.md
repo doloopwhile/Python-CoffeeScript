@@ -31,7 +31,7 @@ coffee-script.js
 
 The latest version of coffee-script.js (the script for browser
 \<script type="text/coffeescript"\> tags) can be download from
-<http://jashkenas.github.com/coffee-script/>
+<http://coffeescript.org/extras/coffee-script.js>
 
 License
 -------
@@ -39,7 +39,7 @@ License
 Released under the MIT license. See LICENSE for details.
 
 You can download current version of coffee-script.js from
-<http://jashkenas.github.com/coffee-script/extras/coffee-script.js>
+<http://coffeescript.org/extras/coffee-script.js>
 
 Changes
 -------
