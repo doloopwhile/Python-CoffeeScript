@@ -50,6 +50,11 @@ http://coffeescript.org/extras/coffee-script.js
 Changes
 -------
 
+1.1.2
+~~~~~
+
+-  Updated coffee-script.js to v1.10.0.
+
 1.1.1
 ~~~~~
 

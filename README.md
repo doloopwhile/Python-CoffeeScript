@@ -44,6 +44,10 @@ You can download current version of coffee-script.js from
 Changes
 -------
 
+### 1.1.2
+
+ * Updated coffee-script.js to v1.10.0.
+
 ### 1.1.1
 
  * Updated coffee-script.js to v1.9.3.
