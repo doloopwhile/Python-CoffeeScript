@@ -42,21 +42,7 @@ add = (x, y) ->
 
 class CoffeeScriptTest(unittest.TestCase):
     def setUp(self):
-        self.runtimes = list(execjs.available_runtimes().values())
-
         self.encodings = "shift-jis utf-8 euc-jp".split()
-        self.compilers = []
-        self.compilers.append(coffeescript)  # default compiler
-
-        from os.path import join, dirname
-        script_path = join(dirname(coffeescript.__file__), "coffee-script.js")
-        with io.open(script_path) as fp:
-            compiler_script = fp.read()
-
-        for runtime in self.runtimes:
-            self.compilers.append(
-                coffeescript.Compiler(compiler_script, runtime))
-
 
     def assertExprsSuccess(self, ctx):
         self.assertEqual(ctx.call("add", 1, 2), 3)
@@ -72,39 +58,29 @@ class CoffeeScriptTest(unittest.TestCase):
             ctx.eval("helloworld")
 
     def test_compile(self):
-        for compiler, runtime in product(self.compilers, self.runtimes):
-            compile = compiler.compile
-
-            # test bare=True
-            jscode = compile(coffee_code, bare=True)
-            ctx = runtime.compile(jscode)
-            self.assertExprsSuccess(ctx)
-
-            # test bare=False
-            jscode = compile(coffee_code, bare=False)
-            ctx = runtime.compile(jscode)
-            self.assertExprsFail(ctx)
-
-    def combinations_for_compile_file(self):
-        return product(
-            self.compilers,
-            self.encodings,
-            self.runtimes,
-        )
-
-    def assert_compile_file_success(self, compiler, runtime, filename, encoding, bare):
-        jscode = compiler.compile_file(filename, encoding=encoding, bare=bare)
-        ctx = runtime.compile(jscode)
+        # test bare=True
+        jscode = coffeescript.compile(coffee_code, bare=True)
+        ctx = execjs.compile(jscode)
         self.assertExprsSuccess(ctx)
 
-    def assert_compile_file_fail(self, compiler, runtime, filename, encoding, bare):
-        jscode = compiler.compile_file(filename, encoding=encoding, bare=bare)
-        ctx = runtime.compile(jscode)
+        # test bare=False
+        jscode = coffeescript.compile(coffee_code, bare=False)
+        ctx = execjs.compile(jscode)
         self.assertExprsFail(ctx)
 
-    def assert_compile_file_decode_error(self, compiler, runtime, filename, encoding, bare):
+    def assert_compile_file_success(self, filename, encoding, bare):
+        jscode = coffeescript.compile_file(filename, encoding=encoding, bare=bare)
+        ctx = execjs.compile(jscode)
+        self.assertExprsSuccess(ctx)
+
+    def assert_compile_file_fail(self, filename, encoding, bare):
+        jscode = coffeescript.compile_file(filename, encoding=encoding, bare=bare)
+        ctx = execjs.compile(jscode)
+        self.assertExprsFail(ctx)
+
+    def assert_compile_file_decode_error(self, filename, encoding, bare):
         with self.assertRaises(UnicodeDecodeError):
-            compiler.compile_file(filename, encoding=encoding, bare=bare)
+            coffeescript.compile_file(filename, encoding=encoding, bare=bare)
 
     def write_temp_files(self, strings, encoding):
         paths = []
@@ -121,34 +97,34 @@ class CoffeeScriptTest(unittest.TestCase):
             os.remove(p)
 
     def test_compile_files(self):
-        for compiler, encoding, runtime in self.combinations_for_compile_file():
+        for encoding in self.encodings:
             paths = self.write_temp_files([coffee_code], encoding)
             try:
                 filename = paths[0]
 
-                self.assert_compile_file_success(compiler, runtime, filename, encoding, True)
-                self.assert_compile_file_fail(compiler, runtime, filename, encoding, False)
+                self.assert_compile_file_success(filename, encoding, True)
+                self.assert_compile_file_fail(filename, encoding, False)
                 for wrong_encoding in set(self.encodings) - set([encoding]):
                     self.assert_compile_file_decode_error(
-                        compiler, runtime, filename, wrong_encoding, True)
+                        filename, wrong_encoding, True)
                     self.assert_compile_file_decode_error(
-                        compiler, runtime, filename, wrong_encoding, False)
+                        filename, wrong_encoding, False)
             finally:
                 self.remove_files(paths)
 
     def test_compile_splitted_files(self):
-        for compiler, encoding, runtime in self.combinations_for_compile_file():
+        for encoding in self.encodings:
             paths = self.write_temp_files(splitted_coffee_code, encoding)
             try:
                 filename = paths
 
-                self.assert_compile_file_success(compiler, runtime, filename, encoding, True)
-                self.assert_compile_file_fail(compiler, runtime, filename, encoding, False)
+                self.assert_compile_file_success(filename, encoding, True)
+                self.assert_compile_file_fail(filename, encoding, False)
                 for wrong_encoding in set(self.encodings) - set([encoding]):
                     self.assert_compile_file_decode_error(
-                        compiler, runtime, filename, wrong_encoding, True)
+                        filename, wrong_encoding, True)
                     self.assert_compile_file_decode_error(
-                        compiler, runtime, filename, wrong_encoding, False)
+                        filename, wrong_encoding, False)
             finally:
                 self.remove_files(paths)
 
