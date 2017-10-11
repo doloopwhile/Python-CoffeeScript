@@ -16,8 +16,9 @@ setup(
     packages=['coffeescript'],
     package_dir={'coffeescript': 'coffeescript'},
     package_data={
-        'coffeescript': ['coffee-script.js'],
+        'coffeescript': ['coffeescript.js'],
     },
+    zip_safe=True,
 
     long_description=long_description,
     url='https://github.com/doloopwhile/Python-CoffeeScript',
