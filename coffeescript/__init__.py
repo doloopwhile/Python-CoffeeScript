@@ -34,7 +34,7 @@ __license__ = str("MIT License")
 # On the other hand, it is impossible that `from coffeescript import __version__`
 # in spite of a dependency on execjs.
 # i.e. the import in setup.py fails if execjs has not been installed yet.
-__version__ = str("1.1.2")
+__version__ = str("2.0.0")
 
 
 __all__ = str('''
@@ -116,7 +116,7 @@ def get_compiler_script():
     which is used in coffeescript.compile() and coffeescript.compile_file()
     '''
     from os.path import dirname, join
-    filename = join(dirname(__file__), 'coffee-script.js')
+    filename = join(dirname(__file__), 'coffeescript.js')
     with io.open(filename, encoding='utf8') as fp:
         return fp.read()
 

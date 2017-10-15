@@ -26,10 +26,10 @@ Installation
 
     $ easy_install CoffeeScript
 
-coffee-script.js
+coffeescript.js
 ----------------
 
-The latest version of coffee-script.js (the script for browser
+The latest version of coffeescript.js (the script for browser
 \<script type="text/coffeescript"\> tags) can be download from
 <http://coffeescript.org/extras/coffee-script.js>
 
@@ -38,11 +38,12 @@ License
 
 Released under the MIT license. See LICENSE for details.
 
-You can download current version of coffee-script.js from
-<http://coffeescript.org/extras/coffee-script.js>
-
 Changes
 -------
+
+### 2.0.0
+
+ * Updated coffeescript.js to v2.0.0.
 
 ### 1.1.2
 
