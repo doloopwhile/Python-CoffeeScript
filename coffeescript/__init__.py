@@ -2,6 +2,8 @@
 # -*- coding: ascii -*-
 from __future__ import division, unicode_literals, print_function
 
+import pkg_resources
+
 # Copyright (c) 2011 Omoto Kenji
 # Released under the MIT license. See `LICENSE` for details.
 
@@ -47,7 +49,6 @@ __all__ = str('''
     get_compiler_script
 ''').split()
 
-import os
 import io
 import execjs
 
@@ -115,10 +116,8 @@ def get_compiler_script():
     '''returns a CoffeeScript compiler script in JavaScript.
     which is used in coffeescript.compile() and coffeescript.compile_file()
     '''
-    from os.path import dirname, join
-    filename = join(dirname(__file__), 'coffeescript.js')
-    with io.open(filename, encoding='utf8') as fp:
-        return fp.read()
+    return pkg_resources.resource_string(
+        'coffeescript', 'coffeescript.js').decode('utf-8')
 
 
 def get_runtime():
