@@ -41,6 +41,12 @@ Released under the MIT license. See LICENSE for details.
 Changes
 -------
 
+### 2.0.1
+
+ * Corrected a bug due to wrong file-path.
+ * Made zip-safe.
+ * Updated coffeescript.js to v2.0.1.
+
 ### 2.0.0
 
  * Updated coffeescript.js to v2.0.0.

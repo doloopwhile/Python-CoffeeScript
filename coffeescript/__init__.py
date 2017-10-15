@@ -36,7 +36,7 @@ __license__ = str("MIT License")
 # On the other hand, it is impossible that `from coffeescript import __version__`
 # in spite of a dependency on execjs.
 # i.e. the import in setup.py fails if execjs has not been installed yet.
-__version__ = str("2.0.0")
+__version__ = str("2.0.1")
 
 
 __all__ = str('''
