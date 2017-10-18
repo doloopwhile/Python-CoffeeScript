@@ -9,7 +9,7 @@ with io.open('README.rst', encoding='ascii') as fp:
 
 setup(
     name='CoffeeScript',
-    version='2.0.1',
+    version='2.0.2',
     author='OMOTO Kenji',
     description='A bridge to the JS CoffeeScript compiler',
 

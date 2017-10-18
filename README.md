@@ -31,7 +31,7 @@ coffeescript.js
 
 The latest version of coffeescript.js (the script for browser
 \<script type="text/coffeescript"\> tags) can be download from
-<http://coffeescript.org/extras/coffee-script.js>
+<http://coffeescript.org/v2/browser-compiler/coffeescript.js>
 
 License
 -------
@@ -40,6 +40,10 @@ Released under the MIT license. See LICENSE for details.
 
 Changes
 -------
+
+### 2.0.2
+
+ * Updated README (no code changes).
 
 ### 2.0.1
 
