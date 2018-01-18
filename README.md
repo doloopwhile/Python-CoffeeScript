@@ -1,6 +1,13 @@
 Python-CoffeeScript
 ===================
 
+# End of life
+
+This library is no longer maintananced. Bugs are not be fixed (even if they are trivial or essential).
+Please use other library or make a fork.
+
+---
+
 Python-CoffeeScript is a bridge to the JS CoffeeScript compiler.
 
 A short example
@@ -40,6 +47,10 @@ Released under the MIT license. See LICENSE for details.
 
 Changes
 -------
+
+### 2.0.3
+
+ * Updated README (no code changes).
 
 ### 2.0.2
 
